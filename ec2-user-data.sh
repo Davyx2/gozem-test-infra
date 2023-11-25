@@ -7,7 +7,6 @@ sudo apt-get update -y
 curl -fsSL https://get.docker.com -o get-docker.sh 
 sudo sh get-docker.sh 
 sudo usermod -a -G docker $USER 
-sudo docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres:13
 
 #--- docker compose
 DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
