@@ -24,7 +24,7 @@ sudo touch ~/.docker/config.json
 sudo chown -R $USER:$USER .docker/
 sudo echo '{"credsStore": "ecr-login"}' >> ~/.docker/config.json
 
-sudo docker run  --name api  -d -p 80:8088 -e NODE_DOCKER_PORT=8088  -e DB_URL="mongodb+srv://manassehsuccess0:OH0HRop6zlTYKdOc@cluster0.doukqss.mongodb.net/?retryWrites=true&w=majority" 137975280244.dkr.ecr.eu-west-3.amazonaws.com/gozem-test
+sudo docker run  --name api  -d -p 80:8088 -e NODE_DOCKER_PORT=8088  -e 
 
 #--- gitlab runner
 #curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash#
