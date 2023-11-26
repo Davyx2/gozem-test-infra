@@ -41,12 +41,14 @@ module "instance-module" {
   source = "./module/template-instance"
 
   #network
-  security_group_project = "allow-https-ssh"
-  subnet_id = "subnet-06b1dbc8949682449"
   vpc_id = "vpc-05957dfa1e0bf81f0"
   #instance
   ami_key_pair_project = "instance_module_key"
   tags                 = "Instance-module"
   pubkey-file          = "/home/seidou/Images/Test-gozem/design-vpc/ssh/project.pub"
   user-data-file       = "/home/seidou/Images/Test-gozem/design-vpc/ec2-user-data.sh"
+  #sns
+  #email = "manassehsuccess0@gmail.com"
+  protocol = "email"
+  instance-topic-name = "topic-server"
 }

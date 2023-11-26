@@ -6,4 +6,10 @@ terraform {
     key     = "terraform.tfstate"
     profile = "admin-gozem-test"
   }
+  required_providers { 
+    http = {
+      source  = "hashicorp/http"
+      version = "~> 3.4.0"
+    }
+  }
 }

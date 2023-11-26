@@ -38,9 +38,16 @@ variable "user-data-file" {
 }
 
 #Network
-
+variable "public-subnet-for-instance" {
+  description = "Sous reseaux public" 
+  type        = list(string) 
+  default = [ 
+    "subnet-06b1dbc8949682449",
+    "subnet-08fafd21a3045a971"
+   ]
+}
 variable "subnet_id" {
-  default = "subnet-06b1dbc8949682449"
+  default = "subnet-06b1dbc8949682449" 
 }
 variable "vpc_id" {
   default = "vpc-05957dfa1e0bf81f0"  
@@ -59,10 +66,57 @@ variable "security_group_id" {
   type = string
 }
 
+#elb
+variable "elb-name" {
+  default = "elb-gozem-test"
+}
 
+variable "health_check_type" {
+  default = "ELB"
+}
+#asg
+variable "asg-policy" {
+  default = "asg_policy_up"
+  type = string
+}
 
+variable "scaling_adjustment" {
+  default = 1
+  type = number
+}
+variable "adjustment_type" {
+  default = "ChangeInCapacity"
+}
 
+variable "cooldown" {
+  default = 300
+  type = number
+}
+variable "min_size" {
+  default = 2
+  type = number
+}
+variable "max_size" {
+  default = 3
+  type = number
+}
+variable "desired_capacity" {
+  default = 2
+  type = number
+}
+variable "metrics_granularity" {
+  default = "1Minute"
+}
 
+#sns
+variable "protocol" {
+  default = "email"
+}
 
+variable "email" {
+  default = "seidoudavid97@gmail.com"
+}
 
-
+variable "instance-topic-name" {
+  default = "instance-topic"
+}
