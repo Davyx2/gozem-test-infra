@@ -21,6 +21,9 @@ variable "ami_key_pair_project" {
 variable "pubkey-file" {
   default = "ssh/project.pub"
 }
+variable "privkey-file" {
+  default = "ssh/project"
+}
 variable "size_ebs" {
   default = 30
   type = number
@@ -119,4 +122,12 @@ variable "email" {
 
 variable "instance-topic-name" {
   default = "instance-topic"
+}
+
+variable "target-port-api" {
+  default = 8080
+}
+
+variable "public_ip" {
+  default = "éééééééé"
 }

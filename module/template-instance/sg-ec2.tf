@@ -32,6 +32,13 @@ resource "aws_security_group" "sg-ec2" {
     cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
   }
 
+  # HTTP access health check
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    security_groups = [aws_security_group.sg-elb.id]
+  }
   # Outbound Rules
   # Internet access to anywhere
   egress {

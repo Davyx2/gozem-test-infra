@@ -20,7 +20,7 @@ resource "aws_security_group" "sg-elb" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+ 
   # Outbound Rules
   # Internet access to anywhere
   egress {

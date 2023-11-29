@@ -1,0 +1,17 @@
+# resource "aws_lb_target_group" "main" {
+#   name     = "lb-target"
+#   port     = var.target-port-api
+#   protocol = "HTTP"
+#   vpc_id   =  data.aws_vpc.main.id
+
+#   health_check {
+#     enabled             = true
+#     port                = var.target-port-api
+#     interval            = 30
+#     protocol            = "HTTP"
+#     path                = "/api/tutorials"
+#     matcher             = "200"
+#     healthy_threshold   = 3
+#     unhealthy_threshold = 3
+#   }
+# }
