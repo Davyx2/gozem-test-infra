@@ -4,7 +4,7 @@ variable "environment" {
 }
 
 variable "public_key" {
-  default = "cdgffndc"
+  default = "cdgffndà))33njZ6c"
 }
 
 variable "private_key" {

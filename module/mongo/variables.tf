@@ -85,8 +85,3 @@ variable "aws_route_table_id" {
 variable "aws_vpc_cidr_block" {
   default = "zzzzzzzzzzzzzzz"
 }
-
-#username=manassehsuccess0@gmail.com
-#pub=cdgffndc
-#priva=85c89d47-4335-43c0-953c-8dd7697357fa
-#org=655f8cd0960462359737ae6e

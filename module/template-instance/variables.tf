@@ -45,15 +45,15 @@ variable "public-subnet-for-instance" {
   description = "Sous reseaux public" 
   type        = list(string) 
   default = [ 
-    "subnet-06b1dbc8949682449",
-    "subnet-08fafd21a3045a971"
+    "",
+    ""
    ]
 }
 variable "subnet_id" {
-  default = "subnet-06b1dbc8949682449" 
+  default = "" 
 }
 variable "vpc_id" {
-  default = "vpc-05957dfa1e0bf81f0"  
+  default = ""  
 }
 
 #Security groups
@@ -64,7 +64,7 @@ variable "security_group_project" {
 }
 
 variable "security_group_id" {
-  default = "sg-066f89bf9c39ef95b"
+  default = ""
   description = "security groupes create"
   type = string
 }
