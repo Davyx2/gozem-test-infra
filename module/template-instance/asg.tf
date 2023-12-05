@@ -4,14 +4,16 @@ resource "aws_autoscaling_group" "main" {
   min_size             = var.min_size
   desired_capacity     = var.desired_capacity
   max_size             = var.max_size
-  
+  termination_policies = [ "OldestLaunchTemplate" ]
   health_check_type    = var.health_check_type
-  load_balancers = [
-    aws_elb.main.id 
-  ]
 
-  launch_configuration = aws_launch_configuration.main.name
-
+  target_group_arns = [ aws_lb_target_group.main.arn ]
+ 
+  launch_template {
+    id = aws_launch_template.main.id
+    version = aws_launch_template.main.latest_version
+  }
+  
   enabled_metrics = [
     "GroupMinSize",
     "GroupMaxSize",
@@ -19,6 +21,18 @@ resource "aws_autoscaling_group" "main" {
     "GroupInServiceInstances",
     "GroupTotalInstances"
   ]
+
+   instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 50
+    }
+    triggers = ["tag"]
+  }
+
+
+  force_delete = false
+
 
   metrics_granularity = var.metrics_granularity
 

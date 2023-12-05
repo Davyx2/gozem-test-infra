@@ -16,14 +16,6 @@ resource "aws_security_group" "sg-ec2" {
     security_groups = [aws_security_group.sg-elb.id]
   }
 
-  # HTTPS access from anywhere
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   # SSH access from anywhere
   ingress {
     from_port   = 22

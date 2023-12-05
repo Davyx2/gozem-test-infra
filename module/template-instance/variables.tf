@@ -73,6 +73,9 @@ variable "security_group_id" {
 variable "elb-name" {
   default = "elb-gozem-test"
 }
+variable "elb-incomming-port" {
+  default = 80
+}
 
 variable "health_check_type" {
   default = "ELB"
@@ -81,6 +84,14 @@ variable "health_check_type" {
 variable "asg-policy" {
   default = "asg_policy_up"
   type = string
+}
+
+variable "tg-name" {
+  default = "tg-gozem-test"
+}
+
+variable "tg-port" {
+  default = 8080
 }
 
 variable "scaling_adjustment" {
@@ -124,10 +135,17 @@ variable "instance-topic-name" {
   default = "instance-topic"
 }
 
+variable "topic-app" {
+  default = "topic-application"
+}
+
 variable "target-port-api" {
   default = 8080
 }
 
 variable "public_ip" {
   default = "éééééééé"
+}
+variable "launchtemplate-name" {
+  default = "server-template"
 }

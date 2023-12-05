@@ -39,25 +39,7 @@ resource "aws_cloudwatch_metric_alarm" "main_cpu_alarm_up" {
   ]
 }
 
-resource "aws_sns_topic" "instance" {
-  name = var.instance-topic-name
-}
 
-resource "aws_sns_topic" "application" {
-  name = "topic-aplication"
-}
-
-resource "aws_sns_topic_subscription" "application" {
-  topic_arn = aws_sns_topic.application.arn
-  protocol = var.protocol
-  endpoint = var.email
-}
-
-resource "aws_sns_topic_subscription" "instance" {
-  topic_arn = aws_sns_topic.instance.arn
-  protocol  = var.protocol
-  endpoint  = var.email
-}
 ###################
 
 ## System and Instance check
@@ -93,7 +75,7 @@ resource "aws_cloudwatch_metric_alarm" "health" {
   ok_actions          = [ aws_sns_topic.instance.arn ]
 
   dimensions = {
-    LoadBalancer = aws_elb.main.name
+    LoadBalancer = aws_lb.main.name
   }
 }
 ## low latency application
@@ -108,7 +90,8 @@ resource "aws_cloudwatch_metric_alarm" "main_latency" {
   threshold = "2"
 
   dimensions = {
-    LoadBalancer = aws_elb.main.name
+    
+    LoadBalancer = aws_lb.main.name
   }
 
   alarm_description = "Alarm when Latency exceeds 100s"
@@ -129,7 +112,7 @@ resource "aws_cloudwatch_metric_alarm" "main_error" {
   threshold = "10"
 
   dimensions = {
-    LoadBalancer = aws_elb.main.name
+    LoadBalancer = aws_lb.main.name
   }
 
   alarm_description = "Alarm when detect error 5xx"
@@ -163,7 +146,7 @@ resource "aws_cloudwatch_metric_alarm" "main_error_in_app" {
       unit        = "Count"
 
       dimensions = {
-        LoadBalancer = aws_elb.main.name
+        LoadBalancer = aws_lb.main.name
       }
     }
   }
@@ -179,12 +162,29 @@ resource "aws_cloudwatch_metric_alarm" "main_error_in_app" {
       unit        = "Count"
 
       dimensions = {
-        LoadBalancer = aws_elb.main.name
+        LoadBalancer = aws_lb.main.name
       }
     }
   }
 }
-
+resource "aws_cloudwatch_metric_alarm" "nlb_healthyhosts" {
+  alarm_name          = "alarmname"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = 1
+  metric_name         = "HealthyHostCount"
+  namespace           = "AWS/NetworkELB"
+  period              = 60
+  statistic           = "Average"
+  threshold           = 2
+  alarm_description   = "Number of healthy nodes in Target Group"
+  actions_enabled     = "true"
+  alarm_actions       = [aws_sns_topic.instance.arn]
+  ok_actions          = [aws_sns_topic.instance.arn]
+  dimensions = {
+    TargetGroup  = aws_lb_target_group.main.arn_suffix
+    LoadBalancer = aws_lb.main.arn_suffix
+  }
+}
 #instance 
 
 
@@ -202,7 +202,7 @@ resource "aws_cloudwatch_metric_alarm" "alb_4xx_errors" {
   threshold           = "5"  # Update real-world value like 100, 200 etc
   treat_missing_data  = "missing"  
   dimensions = {
-    LoadBalancer = aws_elb.main.name
+    LoadBalancer = aws_lb.main.name
   }
   alarm_description = "This metric monitors ALB HTTP 4xx errors and if they are above 100 in specified interval, it is going to send a notification email"
   ok_actions          = [aws_sns_topic.application.arn]  

@@ -6,7 +6,7 @@ data "aws_ami" "ubuntu" {
     name   = "name"
     values = [var.server_ami]
   }
-
+   
   filter {
     name   = "virtualization-type"
     values = ["hvm"]

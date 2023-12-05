@@ -5,25 +5,23 @@ logdir=/var/log
 
 logfile=${logdir}/_setup.log
 #-- docker
-sudo apt-get update -y 
+sudo apt-get update -y
 sudo apt-get install awscli amazon-ecr-credential-helper -y
-curl -fsSL https://get.docker.com -o get-docker.sh 
-sudo sh get-docker.sh 
-sudo usermod -a -G docker $USER 
-sudo docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres:13
-
-# # #--- docker compose
-DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
-mkdir -p $DOCKER_CONFIG/cli-plugins
-curl -SL https://github.com/docker/compose/releases/download/v2.20.3/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
-chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
-
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo service docker start
+sudo docker run  --name nginx  -d  -p 80:80 nginx
 #  #------aws ecr --------------
 #  # Add credential helper to pull from ECR
-sudo chmod 0700 $DOCKER_CONFIG >> $logfile
-sudo touch $DOCKER_CONFIG/config.json >> $logfile
-sudo chown -R $USER:$USER $DOCKER_CONFIG >> $logfile
-sudo echo '{"credsStore": "ecr-login"}' >> $DOCKER_CONFIG/config.json
+sudo mkdir -p /home/ubuntu/.docker
+sudo chmod 0700 /home/ubuntu/.docker
+sudo touch /home/ubuntu/.docker/config.json
+sudo chown -R ubuntu:ubuntu /home/ubuntu/.docker
+sudo echo '{"credsStore": "ecr-login"}' >> /home/ubuntu/.docker/config.json
 
-#sudo docker run  --name nginx  -d  -p 80:80 nginx
-sudo docker run  --name api  -d  -p 80:8080 --name api -e NODE_DOCKER_PORT=80 -e "137975280244.dkr.ecr.eu-west-3.amazonaws.com/gozem-test"  DB_URL=
+aws ecr get-login-password --region eu-west-3 | sudo docker login --username AWS --password-stdin 137975280244.dkr.ecr.eu-west-3.amazonaws.com
+
+
+sudo docker  pull 137975280244.dkr.ecr.eu-west-3.amazonaws.com/gozem-test
+sudo docker run  --name api  -d  -p 8080:8080 --name api -e NODE_DOCKER_PORT=8080  -e  DB_URL="" 137975280244.dkr.ecr.eu-west-3.amazonaws.com/gozem-test
+sudo service docker start
